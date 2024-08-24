@@ -37,7 +37,10 @@ def find_credentials_file(username):
 
 def decrypt_file(encryption_key, initialization_vector, input_file, output_file):
     """Decrypt the file using OpenSSL."""
-    command = [
+    # Check if OpenSSL is available
+    if shutil.which("openssl") is None:
+        print("[ERROR] OpenSSL is not installed or not found in PATH.")
+        return 1, "OpenSSL not found"
         'openssl', 'aes-128-cbc', '-d',
         '-K', encryption_key,
         '-iv', initialization_vector,
