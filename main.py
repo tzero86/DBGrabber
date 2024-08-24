@@ -2,6 +2,8 @@ import os
 import platform
 import subprocess
 import shutil
+import json
+import re
 from pathlib import Path
 import psutil
 
@@ -93,7 +95,18 @@ def main():
             print("Decrypted Content:")
             print("------------------------------------------------------")
             with output_file.open('r') as file:
-                print(file.read())
+                content = file.read()
+                # Extract JSON part using regex
+                match = re.search(r'\{.*\}', content)
+                if match:
+                    json_content = match.group(0)
+                    credentials = json.loads(json_content)
+                    for db, details in credentials.items():
+                        user = details['#connection']['user']
+                        password = details['#connection']['password']
+                        print(f"Database: {db}, User: {user}, Password: {password}")
+                else:
+                    print("[ERROR] JSON content not found in the decrypted output.")
             print("------------------------------------------------------")
         else:
             print("[ERROR] Decryption failed.")
