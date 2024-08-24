@@ -34,6 +34,12 @@ def find_credentials_file(username):
         file_path = Path.home() / '.local/share/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
         if file_path.exists():
             return file_path
+
+        # Check for Snap installation path
+        snap_path = Path.home() / f'snap/dbeaver-ce/320/.local/share/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
+        if snap_path.exists():
+            return snap_path
+            return file_path
     elif system == "Darwin":  # macOS
         file_path = Path.home() / 'Library/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
         if file_path.exists():
