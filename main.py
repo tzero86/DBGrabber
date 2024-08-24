@@ -1,4 +1,5 @@
 import os
+import platform
 import subprocess
 import shutil
 from pathlib import Path
@@ -6,12 +7,22 @@ import psutil
 
 
 def find_credentials_file(username):
-    """Find the credentials-config.json file on common drives."""
-    drives = [partition.device for partition in psutil.disk_partitions()]
-    print(f'[INFO] Drives detected: {drives}')
-    for drive in drives:
-        file_path = Path(
-            drive) / f'Users/{username}/AppData/Roaming/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
+    """Find the credentials-config.json file based on the OS."""
+    system = platform.system()
+    if system == "Windows":
+        drives = [partition.device for partition in psutil.disk_partitions()]
+        print(f'[INFO] Drives detected: {drives}')
+        for drive in drives:
+            file_path = Path(
+                drive) / f'Users/{username}/AppData/Roaming/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
+            if file_path.exists():
+                return file_path
+    elif system == "Linux":
+        file_path = Path(f'/home/{username}/.local/share/DBeaverData/workspace6/General/.dbeaver/credentials-config.json')
+        if file_path.exists():
+            return file_path
+    elif system == "Darwin":  # macOS
+        file_path = Path(f'/Users/{username}/Library/DBeaverData/workspace6/General/.dbeaver/credentials-config.json')
         if file_path.exists():
             return file_path
     return None
@@ -34,7 +45,7 @@ def main():
     print("======================================================")
     print("                    DBGrabber v1.0")
     print("======================================================")
-    print("This script is intended for Windows Machines only.")
+    print("This script is intended for Windows, Linux, and macOS Machines.")
     print("It fetches and decrypts DBeaver credentials.")
     print("------------------------------------------------------")
 
