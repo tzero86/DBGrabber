@@ -9,6 +9,7 @@ import psutil
 def find_credentials_file(username):
     """Find the credentials-config.json file based on the OS."""
     system = platform.system()
+    print(f"[INFO] Detected Operating System: {system}")
     if system == "Windows":
         drives = [partition.device for partition in psutil.disk_partitions()]
         print(f'[INFO] Drives detected: {drives}')
@@ -55,7 +56,12 @@ def main():
     username = os.getlogin()
     print(f"[INFO] Detected username: {username}")
 
+    print(f"[INFO] Searching for credentials file for user: {username}")
     file_path = find_credentials_file(username)
+    if file_path:
+        print(f"[INFO] Credentials file found at: {file_path}")
+    else:
+        print("[ERROR] Credentials file not found.")
 
     if file_path:
         print(f"[INFO] User profile found on drive: {file_path.drive}")
