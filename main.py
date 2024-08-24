@@ -41,6 +41,8 @@ def decrypt_file(encryption_key, initialization_vector, input_file, output_file)
     if shutil.which("openssl") is None:
         print("[ERROR] OpenSSL is not installed or not found in PATH.")
         return 1, "OpenSSL not found"
+
+    command = [
         'openssl', 'aes-128-cbc', '-d',
         '-K', encryption_key,
         '-iv', initialization_vector,
