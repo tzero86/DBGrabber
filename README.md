@@ -38,6 +38,8 @@ DBGrabber is a script that fetches and decrypts DBeaver credentials from your us
 
 2. Follow the on-screen instructions to view your decrypted DBeaver credentials.
 
+![Sample Run](https://i.imgur.com/PQg223s.png)
+
 ## Disclaimer
 
 This script is tested on Windows only. Linux and macOS support is experimental (testers welcome).
