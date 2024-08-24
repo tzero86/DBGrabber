@@ -40,7 +40,20 @@ DBGrabber is a script that fetches and decrypts DBeaver credentials from your us
 2. Follow the on-screen instructions to view your decrypted DBeaver credentials.
 
 
-## Disclaimer
+## Supported Operating Systems and Default Paths
+
+The script supports the following operating systems and searches for the credentials file in these default paths:
+
+- **Windows:**
+  - `C:\Users\<username>\AppData\Roaming\DBeaverData\workspace6\General\.dbeaver\credentials-config.json`
+  - `C:\Users\<username>\AppData\Local\Packages\DBeaverCorp.DBeaverCE_*\LocalCache\Roaming\DBeaverData\workspace6\General\.dbeaver\credentials-config.json` (Windows Store installation)
+
+- **Linux:**
+  - `/home/<username>/.local/share/DBeaverData/workspace6/General/.dbeaver/credentials-config.json`
+  - `/home/<username>/snap/dbeaver-ce/320/.local/share/DBeaverData/workspace6/General/.dbeaver/credentials-config.json` (Snap installation)
+
+- **macOS:**
+  - `/Users/<username>/Library/DBeaverData/workspace6/General/.dbeaver/credentials-config.json`
 
 This script is tested on Windows only. Linux and macOS support is experimental (testers welcome).
 
