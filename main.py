@@ -18,11 +18,11 @@ def find_credentials_file(username):
             if file_path.exists():
                 return file_path
     elif system == "Linux":
-        file_path = Path(f'/home/{username}/.local/share/DBeaverData/workspace6/General/.dbeaver/credentials-config.json')
+        file_path = Path.home() / '.local/share/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
         if file_path.exists():
             return file_path
     elif system == "Darwin":  # macOS
-        file_path = Path(f'/Users/{username}/Library/DBeaverData/workspace6/General/.dbeaver/credentials-config.json')
+        file_path = Path.home() / 'Library/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
         if file_path.exists():
             return file_path
     return None
