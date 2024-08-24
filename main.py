@@ -3,6 +3,7 @@ import subprocess
 import shutil
 from pathlib import Path
 import psutil
+from hello import hello
 
 
 def find_credentials_file(username):
