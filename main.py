@@ -2,11 +2,12 @@ import os
 import subprocess
 import shutil
 from pathlib import Path
+import psutil
 
 
 def find_credentials_file(username):
     """Find the credentials-config.json file on common drives."""
-    drives = ['C:', 'D:', 'E:', 'F:']
+    drives = [partition.device for partition in psutil.disk_partitions()]
     for drive in drives:
         file_path = Path(
             drive) / f'Users/{username}/AppData/Roaming/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
