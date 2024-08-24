@@ -18,6 +18,12 @@ def find_credentials_file(username):
                 drive) / f'Users/{username}/AppData/Roaming/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
             if file_path.exists():
                 return file_path
+
+            # Check for Windows Store installation path
+            store_path = Path(
+                drive) / f'Users/{username}/AppData/Local/Packages/DBeaverCorp.DBeaverCE_*/LocalCache/Roaming/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
+            if store_path.exists():
+                return file_path
     elif system == "Linux":
         file_path = Path.home() / '.local/share/DBeaverData/workspace6/General/.dbeaver/credentials-config.json'
         if file_path.exists():
