@@ -60,19 +60,19 @@ def decrypt_file(encryption_key, initialization_vector, input_file, output_file)
 
 
 def main():
-    print(Fore.CYAN + Style.BRIGHT + r"""
-     ____  ____           _     _               
-    |  _ \| __ )  ___  __| | __| | ___ _ __ ___ 
-    | | | |  _ \ / _ \/ _` |/ _` |/ _ \ '__/ __|
-    | |_| | |_) |  __/ (_| | (_| |  __/ |  \__ \
-    |____/|____/ \___|\__,_|\__,_|\___|_|  |___/
+    print(Fore.MAGENTA + r"""
+
+    ██████  ██████   ██████  ██████   █████  ██████  ██████  ███████ ██████  
+    ██   ██ ██   ██ ██       ██   ██ ██   ██ ██   ██ ██   ██ ██      ██   ██ 
+    ██   ██ ██████  ██   ███ ██████  ███████ ██████  ██████  █████   ██████  
+    ██   ██ ██   ██ ██    ██ ██   ██ ██   ██ ██   ██ ██   ██ ██      ██   ██ 
+    ██████  ██████   ██████  ██   ██ ██   ██ ██████  ██████  ███████ ██   ██ 
+                                                                by @tzero86
+        This Script fetches and decrypts DBeaver credentials from your user.
+        Ideal for when you don't remember that masked password.                                                                                                                   
     """)
-    print(Style.BRIGHT + "======================================================")
-    print(Fore.GREEN + Style.BRIGHT + "                    DBGrabber v1.0")
-    print(Style.BRIGHT + "======================================================")
-    print(Fore.YELLOW + "This script is intended for Windows, Linux, and macOS Machines.")
-    print("It fetches and decrypts DBeaver credentials.")
-    print(Style.BRIGHT + "------------------------------------------------------")
+    print(Fore.RED + "DISCLAIMER: This script is tested on Windows only.\nLinux, and macOS support is "
+                     "experimental (testers welcome). \n")
 
     encryption_key = "babb4a9f774ab853c96c2d653dfe544a"
     initialization_vector = "00000000000000000000000000000000"
@@ -88,7 +88,7 @@ def main():
         print(Fore.RED + "[ERROR] Credentials file not found.")
 
     if file_path:
-        print(Fore.CYAN + f"[INFO] User profile found on drive: {file_path.drive}")
+        print(Fore.GREEN + f"[INFO] User profile found on drive: {file_path.drive}")
         print(Fore.CYAN + f"[INFO] Looking for file at: {file_path}")
 
         # Copy the file to the current directory
@@ -103,8 +103,7 @@ def main():
         if returncode == 0 and output_file.exists():
             print(Fore.GREEN + "[SUCCESS] Decryption completed successfully.")
             print(Style.BRIGHT + "------------------------------------------------------")
-            print(Fore.YELLOW + "Decrypted Content:")
-            print(Style.BRIGHT + "------------------------------------------------------")
+            print(Fore.YELLOW + "Decrypted Content below:👇")
             with output_file.open('r') as file:
                 content = file.read()
                 # Extract JSON part using regex
@@ -115,19 +114,18 @@ def main():
                     for db, details in credentials.items():
                         user = details['#connection']['user']
                         password = details['#connection']['password']
-                        print(Fore.CYAN + f"Database: {db}, User: {user}, Password: {password}")
+                        print(Fore.CYAN + f"\n|- Database: {db}")
+                        print(Fore.CYAN + f"|--> User: {user}")
+                        print(Fore.CYAN + f"|--> Password: {password}")
                 else:
                     print(Fore.RED + "[ERROR] JSON content not found in the decrypted output.")
-            print(Style.BRIGHT + "------------------------------------------------------")
         else:
             print(Fore.RED + "[ERROR] Decryption failed.")
             print(stderr)
     else:
         print(Fore.RED + "[ERROR] User profile drive not found. Please check the configuration.")
 
-    print(Style.BRIGHT + "======================================================")
-    print(Fore.GREEN + "                       End of DBGrabber")
-    print(Style.BRIGHT + "======================================================")
+    print(Fore.GREEN + "\n\n[BYE] Thanks for using DBGrabber! - by @tzero86 👽\n")
 
 
 if __name__ == "__main__":

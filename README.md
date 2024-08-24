@@ -1,6 +1,7 @@
 # DBGrabber
 
 DBGrabber is a script that fetches and decrypts DBeaver credentials from your user profile. It's ideal for when you don't remember that masked password.
+![Sample Run](https://i.imgur.com/PQg223s.png)
 
 ## Features
 
@@ -38,7 +39,6 @@ DBGrabber is a script that fetches and decrypts DBeaver credentials from your us
 
 2. Follow the on-screen instructions to view your decrypted DBeaver credentials.
 
-![Sample Run](https://i.imgur.com/PQg223s.png)
 
 ## Disclaimer
 
