@@ -110,7 +110,7 @@ def main():
             print(Fore.GREEN + "[SUCCESS] Decryption completed successfully.")
             print(Style.BRIGHT + "------------------------------------------------------")
             print(Fore.YELLOW + "Decrypted Content below:👇")
-            with output_file.open('r') as file:
+            with output_file.open('r', encoding='latin-1') as file:
                 content = file.read()
                 # Extract JSON part using regex
                 match = re.search(r'\{.*\}', content)
